@@ -1,0 +1,87 @@
+---
+title: "DebugWithinRMarkdown"
+author: "Rob Donald"
+date: "`r format(Sys.time(), '%A %d %B %Y, %H:%M')`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+params:
+  dataprep: no
+header-includes: \usepackage{comment}
+---
+<style>
+pre {
+  overflow-x: auto;
+}
+pre code {
+  word-wrap: normal;
+  white-space: pre;
+}
+</style>
+
+
+# Introduction
+
+This document is the top level that pulls together several scripts and functions.
+
+
+See the files:
+
++ **DebugFunctions.R** simple functions 
++ **Something else**
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.height=8,fig.width=12)
+options(width=1500)
+```
+
+# Cross platform operation
+
+Demo the techniques I use to cope with Windows support.
+
+```{r system_setup, echo=FALSE}
+os.type<-Sys.info()[1]
+if(os.type == 'Windows'){TLC_Root<-'C:/PostDocStuff'}else{TLC_Root<-'/Users/rob/PostDocStuff/teaching/RStuff'}
+```
+
+# Conditional markdown text
+
+`r if(!params$dataprep) {"\\begin{comment}"}`
+## Libraries
+`r if(!params$dataprep) {"\\end{comment}"}`
+
+```{r library_setup,include=params$dataprep}
+suppressMessages({suppressWarnings({
+  library(dplyr)
+  library(tidyr)
+
+  library(ggplot2)
+  library(ggpmisc)
+  library(grid)
+  library(gridExtra)
+  
+  library(RobsRUtils)
+  library(futile.logger)
+  
+  library(data.table)
+})})
+```
+
+# Background
+
+I have using the RStudio debugger to be one of the weakest bits of the transition to RStudio 
+from something like MATLAB. This project is my attempt to explore how it works and see if I can
+wrap my head around it enough to teach it to other folk.
+
+## Data Source
+
+Let's use some publically accessible data set. Even better let's use one of the data
+sets that are built into R.
+
+This next command will flash up another tab (called R data sets) with a list of all the built in data sets.
+```{r}
+data()
+```
+
